@@ -3,12 +3,7 @@ const {Server} = require('socket.io')
 var cors = require('cors')
 
 const app = express()
-
-app.use(cors({
-  origin: 'https://willowy-malabi-f91a5d.netlify.app', // Your frontend URL
-  methods: ['GET', 'POST'],
-  credentials: true // Optional: include if using credentials
-}));
+app.use(cors())
 
 const io = new Server({
   cors:true
