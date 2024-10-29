@@ -4,7 +4,11 @@ var cors = require('cors')
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+  origin: 'https://willowy-malabi-f91a5d.netlify.app', // Your frontend URL
+  methods: ['GET', 'POST'],
+  credentials: true // Optional: include if using credentials
+}));
 
 const io = new Server({
   cors:true
