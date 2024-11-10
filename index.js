@@ -32,12 +32,18 @@ io.on("connection", (socket) => {
       socket.to(socketId).emit("incoming-call",{fromEmail, offer})
     })
     socket.on("call-acceptedd",(data)=>{
-      console.log("Hello from call-acceptedd")
       const {fromEmail,ans} = data
-      console.log(fromEmail)
       const socketId = emailTosocketMapping.get(fromEmail)
-      console.log(socketId)
       socket.to(socketId).emit("call-accepted",{ans})
+    })
+    socket.on("send-ice-candidate",(data)=>{
+      const {candidate} = data 
+      console.log("These are the candidates of peer 1 in peer 2",candidate)
+      socket.emit("receive-ice-candidate",candidate)
+    })
+    socket.on("peer2-candidate",(data)=>{
+      const {candidate} = data 
+      console.log("These are the candidates of peer 2 in peer 1",candidate)
     })
   });
 app.listen(8000,()=>{
