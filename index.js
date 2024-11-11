@@ -36,14 +36,9 @@ io.on("connection", (socket) => {
       const socketId = emailTosocketMapping.get(fromEmail)
       socket.to(socketId).emit("call-accepted",{ans})
     })
-    socket.on("send-ice-candidate",(data)=>{
-      const {candidate} = data 
-      console.log("These are the candidates of peer 1 in peer 2",candidate)
-      socket.emit("receive-ice-candidate",candidate)
-    })
-    socket.on("peer2-candidate",(data)=>{
-      const {candidate} = data 
-      console.log("These are the candidates of peer 2 in peer 1",candidate)
+    socket.on("ice-candidate",(data)=>{
+      console.log("These are the data",data)
+      socket.broadcast.emit("ice-candidate",data)
     })
   });
 app.listen(8000,()=>{
