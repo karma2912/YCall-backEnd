@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const {Server} = require('socket.io')
 var cors = require('cors')
@@ -10,6 +11,8 @@ const io = new Server({
 })
 
 app.use(express.json())
+
+const PORT = process.env.PORT || 8001
 
 const emailTosocketMapping = new Map()
 
@@ -31,7 +34,7 @@ io.on("connection", (socket) => {
       const fromEmail = socketToEmailMapping.get(socket.id)
       socket.to(socketId).emit("incoming-call",{fromEmail, offer})
     })
-    socket.on("call-acceptedd",(data)=>{
+    socket.on("call-accepted",(data)=>{
       const {fromEmail,ans} = data
       const socketId = emailTosocketMapping.get(fromEmail)
       socket.to(socketId).emit("call-accepted",{ans})
@@ -41,7 +44,7 @@ io.on("connection", (socket) => {
       socket.broadcast.emit("ice-candidate",data)
     })
   });
-app.listen(8000,()=>{
-    console.log("App is listening in port 8000")
+
+io.listen(PORT,()=>{
+  console.log(`Port is running on ${PORT}`)
 })
-io.listen(8001)
