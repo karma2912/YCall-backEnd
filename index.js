@@ -40,7 +40,6 @@ io.on("connection", (socket) => {
       socket.to(socketId).emit("call-accepted",{ans})
     })
     socket.on("ice-candidate",(data)=>{
-      console.log("These are the data",data)
       socket.broadcast.emit("ice-candidate",data)
     })
   });
